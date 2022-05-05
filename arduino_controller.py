@@ -19,20 +19,17 @@ class ArduinoController:
     def __del__(self):
         self.ser.close()
 
-    def send_msg(self, val):
-        val = str(int(val) + 1)
+    def sendLedControl(self, val):
         self.ser.write(bytes(val, 'utf-8'))
-        time.sleep(1)
+        time.sleep(0.5)
         rst = self.ser.readline().decode()
-
         return rst
 
-    def get_hud_temp(self):
+    def getHudTemp(self):
         self.ser.write(b'10')
-        time.sleep(1)
+        time.sleep(0.5)
         try:
-            temp, hud = self.ser.readline().decode().split(",")
+            return(self.ser.readline().decode().split(","))
         except:
-            return f"DHT11 is not Initialized"
-        return f"Temp = {temp}, Humidity = {hud}"
+            return f"0, 0"
         

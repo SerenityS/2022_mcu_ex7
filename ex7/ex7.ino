@@ -23,16 +23,21 @@ void loop() {
     int i = Serial.parseInt();
 
     if (2 <= i && i <= 9) {
-      if (digitalRead(i)) {
-        digitalWrite(i, LOW);
-        Serial.print("OFF");
-      }
-      else {
-        digitalWrite(i, HIGH);
-        Serial.print("ON");
+      if (Serial.read() == ',') {
+        int cmd = Serial.parseInt();
+        int brightness = Serial.parseInt();
+        
+        if (cmd) {
+          analogWrite(i, brightness);
+          Serial.print("ON");
+        }
+        else {
+          analogWrite(i, 0);
+          Serial.print("OFF");
+        }
       }
     }
-    
+
     if (i == 10) {
       float humidity = dht.readHumidity(); // 상대 습도 읽기
       float temperature = dht.readTemperature(); // 온도 읽기

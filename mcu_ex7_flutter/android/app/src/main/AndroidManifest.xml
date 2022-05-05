@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mcu_ex7">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="mcu_ex7"
+        android:label="MCU_EX7"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
