@@ -2,6 +2,7 @@ import socket
 from cgitb import enable
 
 from arduino_controller import ArduinoController
+from const import serverIp, serverPort
 
 arduino = ArduinoController()
 
@@ -9,7 +10,7 @@ enabled = False
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
-    server_socket.bind(('1.253.35.224', 8765))
+    server_socket.bind((serverIp, serverPort))
     server_socket.listen()
 
     def sendData(msg, enabled):

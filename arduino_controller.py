@@ -3,11 +3,13 @@ import time
 
 import serial
 
+from const import arduinoPort
+
 
 class ArduinoController:
     def __init__(self):
         try:
-            self.ser = serial.Serial('COM3', 9600, timeout=1)
+            self.ser = serial.Serial(f'COM{arduinoPort}', 9600, timeout=1)
             time.sleep(1)
         except:
             print("Not Initialized")
