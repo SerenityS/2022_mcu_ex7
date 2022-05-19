@@ -1,6 +1,6 @@
 import socket
 
-from python_server.arduino_controller import ArduinoController
+from arduino_controller import ArduinoController
 from const import serverIp, serverPort
 
 # 아두이노 컨트롤러 객체 선언
