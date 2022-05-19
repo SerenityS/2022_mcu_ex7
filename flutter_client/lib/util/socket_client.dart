@@ -27,6 +27,7 @@ Future<String> sendLedData(ledNum, ledCmd, ledBrightness) async {
 
 Future<String> getDHT11() async {
   Socket socket = await Socket.connect(ipAddress, port);
+
   String rst = "";
   socket.write("10");
   var rsts = socket.listen(
