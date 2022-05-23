@@ -34,7 +34,7 @@ void loop() {
       if (Serial.read() == ',') {
         int cmd = Serial.parseInt();
         int brightness = Serial.parseInt();
-        
+
         // ON
         if (cmd) {
           analogWrite(i, brightness);
@@ -47,7 +47,7 @@ void loop() {
         }
       }
     }
-    
+
     // 전달 받은 명령어가 10인 경우
     // DHT11 데이터 반환
     if (i == 10) {
@@ -57,6 +57,26 @@ void loop() {
       Serial.print(",");
       Serial.print(humidity);
     }
-    Serial.read();
+
+    // 전달 받은 명령어가 11인 경우
+    // Byte ON/OFF
+    if (i == 11) {
+      Serial.read();
+      String byteArray = Serial.readString();
+      Serial.print(byteArray);
+      for (int i = 0; i < 8; i++) {
+        int ledState = byteArray[i] - 48;
+        digitalWrite(i + 2, ledState);
+      }
+    }
+
+    // 전달 받은 명령어가 12인 경우
+    // 초기화
+    if (i == 12) {
+      for (int i = 2; i < 10; i++) {
+        digitalWrite(i, 1);
+      }
+      Serial.print("Clear");
+    }
   }
 }

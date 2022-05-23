@@ -6,7 +6,7 @@ from const import serverIp, serverPort
 # 아두이노 컨트롤러 객체 선언
 arduino = ArduinoController()
 
-# Race Condition 방지를 위한 Flag
+# Race Condition 방지를 위한 Flaga
 enabled = False
 
 # Socket Stream Open
@@ -24,9 +24,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                 rst = arduino.sendLedControl(cmd)
             # 명령어가 10인 경우
             # DHT11에서 정보 받아옴
-            if int(cmd[0:2]) == 10 and enabled == False:
+            elif int(cmd[0:2]) == 10 and enabled == False:
                 enabled = True
                 rst = arduino.getHudTemp()
+            elif int(cmd[0:2]) == 11 and enabled == False:
+                enabled = True
+                rst = arduino.sendByteLedControl(f"11,{int(cmd[3:]):08b}")
+            elif int(cmd[0:2]) == 12 and enabled == False:
+                enabled = True
+                rst = arduino.sendClear()
             # 아두이노 시리얼 통신으로 전달받은 결괏값 출력
             print(f"arduino >> {rst}")
             # 결과값을 소켓 통신을 통해 클라이언트에 전송

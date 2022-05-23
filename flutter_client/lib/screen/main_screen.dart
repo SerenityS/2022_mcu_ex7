@@ -16,7 +16,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<int> colorIndex = [1, 3, 2, 3, 1, 3, 2, 3];
+  List<int> colorIndex = [3, 2, 3, 1, 3, 2, 3, 1];
 
   List<double> brightnessSliderValue = [255, 255, 255, 255, 255, 255, 255, 255];
   List<bool> ledStatus = [true, true, true, true, true, true, true, true];
@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final TextEditingController _ipTextController = TextEditingController();
   final TextEditingController _portTextController = TextEditingController();
+  final TextEditingController _byteTextController = TextEditingController();
 
   @override
   void initState() {
@@ -102,6 +103,17 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: const Text("LED & DHT11 Control"),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () async {
+              String rst = await sendClearData();
+              setState(() {
+                if (rst == "Clear") {
+                  ledStatus = [true, true, true, true, true, true, true, true];
+                }
+              });
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -294,6 +306,49 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                   ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Byte Control",
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: TextField(
+                          controller: _byteTextController,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            String rst =
+                                await sendByteLedData(_byteTextController.text);
+                            setState(() {
+                              for (int i = 0; i < 8; i++) {
+                                if (rst[i] == '0') {
+                                  ledStatus[i] = false;
+                                } else {
+                                  ledStatus[i] = true;
+                                }
+                              }
+                            });
+                          },
+                          child: const Text("Send"),
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),

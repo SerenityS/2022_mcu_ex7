@@ -1,3 +1,3 @@
-arduinoPort = 7
-serverIp = "192.168.31.14"
+arduinoPort = 8
+serverIp = "1.253.35.224"
 serverPort = 8765
