@@ -53,6 +53,7 @@ void loop() {
     if (i == 10) {
       float humidity = dht.readHumidity(); // 상대 습도 읽기
       float temperature = dht.readTemperature(); // 온도 읽기
+      // 온습도 시리얼 출력
       Serial.print(temperature);
       Serial.print(",");
       Serial.print(humidity);
@@ -61,18 +62,19 @@ void loop() {
     // 전달 받은 명령어가 11인 경우
     // Byte ON/OFF
     if (i == 11) {
-      Serial.read();
-      String byteArray = Serial.readString();
-      Serial.print(byteArray);
+      Serial.read(); // 콤마 제거
+      String byteArray = Serial.readString(); // 8bit Led Status 일음
+      Serial.print(byteArray); // 전체 LED 상태 시리얼 출력
       for (int i = 0; i < 8; i++) {
-        int ledState = byteArray[i] - 48;
-        digitalWrite(i + 2, ledState);
+        int ledStatus = byteArray[i] - 48; // char to int(0, 1)
+        digitalWrite(i + 2, ledStatus); // LED On/Off
       }
     }
 
     // 전달 받은 명령어가 12인 경우
     // 초기화
     if (i == 12) {
+      // 전체 LED On
       for (int i = 2; i < 10; i++) {
         digitalWrite(i, 1);
       }

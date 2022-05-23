@@ -27,9 +27,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
             elif int(cmd[0:2]) == 10 and enabled == False:
                 enabled = True
                 rst = arduino.getHudTemp()
+            # 명령어가 11인 경우
+            # Byte 형식 LED 제어
             elif int(cmd[0:2]) == 11 and enabled == False:
                 enabled = True
+                # int to byte(8bit)
                 rst = arduino.sendByteLedControl(f"11,{int(cmd[3:]):08b}")
+            # 명령어가 12인 경우
+            # 전체 LED 초기화
             elif int(cmd[0:2]) == 12 and enabled == False:
                 enabled = True
                 rst = arduino.sendClear()
