@@ -325,6 +325,8 @@ class _MainScreenState extends State<MainScreen> {
                         padding: const EdgeInsets.all(18.0),
                         child: TextField(
                           controller: _byteTextController,
+                          decoration:
+                              const InputDecoration(hintText: "0 ~ 255"),
                         ),
                       ),
                       Padding(
